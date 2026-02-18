@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For Zyanya 💛</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 24px; line-height: 1.4; background: #fff; }
+    .card { max-width: 820px; margin: 0 auto; border: 2px solid #111; border-radius: 16px; padding: 18px; background: #fff; position: relative; }
+    h1 { margin-top: 0; }
+    button { padding: 10px 12px; border-radius: 12px; border: 2px solid #111; background: #fff; cursor: pointer; margin: 6px 6px 6px 0; }
+    button:hover { transform: translateY(-1px); }
+    .box { border: 2px dashed #111; border-radius: 14px; padding: 14px; margin-top: 14px; min-height: 72px; background: #fff; }
+    .small { font-size: 0.92rem; opacity: 0.85; }
+    input { padding: 10px; border-radius: 12px; border: 2px solid #111; width: 220px; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    /* ===== Mode backgrounds (instant switch) ===== */
+    .mode-miss { background: #ffe4ee; }
+    .mode-love { background: #ffeaf2; }
+    .mode-motivation { background: #fff3cf; }
+    .mode-sad { background: #0e1b2b; }
+    .mode-sad .card { background: rgba(255,255,255,0.95); }
+
+    /* Card accents per mode */
+    .mode-miss .card { box-shadow: 0 0 0 4px rgba(255,105,180,0.15); }
+    .mode-love .card { box-shadow: 0 0 0 4px rgba(255,105,180,0.10); }
+    .mode-motivation .card { box-shadow: 0 0 0 4px rgba(255,190,0,0.18); }
+    .mode-sad .card { box-shadow: 0 0 0 4px rgba(140,170,255,0.18); }
+
+    /* Glowing name */
+    .name-glow {
+      font-weight: bold;
+      text-shadow:
+        0 0 6px rgba(255, 105, 180, 0.7),
+        0 0 14px rgba(255, 105, 180, 0.55),
+        0 0 22px rgba(255, 105, 180, 0.35);
+    }
+
+    /* Motivation pulse */
+    .pulse {
+      display: inline-block;
+      animation: pulseOnce 0.55s ease-out 1;
+    }
+    @keyframes pulseOnce {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.07); }
+      100% { transform: scale(1); }
+    }
+
+    /* Floating hearts */
+    .tiny-heart {
+      position: fixed;
+      bottom: -22px;
+      pointer-events: none;
+      opacity: 0.85;
+      transform: translateY(0);
+      animation-name: floatUp;
+      animation-timing-function: ease-out;
+      animation-fill-mode: forwards;
+      z-index: 9999;
+      filter: drop-shadow(0 0 6px rgba(255,105,180,0.25));
+    }
+    .tiny-heart.sad-heart {
+      opacity: 0.55;
+      filter: drop-shadow(0 0 10px rgba(160,190,255,0.35));
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0.85; }
+      100% { transform: translateY(-110vh) scale(1.25); opacity: 0; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      top: -12px;
+      width: 10px;
+      height: 14px;
+      opacity: 0.95;
+      z-index: 9999;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.95; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      animation: sparklePop 0.75s ease-out forwards;
+      opacity: 0.95;
+    }
+    @keyframes sparklePop {
+      0% { transform: translateY(0) scale(0.7); opacity: 0.95; }
+      100% { transform: translateY(-40px) scale(1.25); opacity: 0; }
+    }
+
+    /* Voice crack popup */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .popup {
+      background: #fff;
+      border: 2px solid #111;
+      border-radius: 16px;
+      padding: 16px 18px;
+      max-width: 520px;
+      width: calc(100% - 48px);
+      text-align: center;
+      font-size: 1.15rem;
+    }
+    .shake {
+      animation: shake 0.55s ease-in-out 1;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-6px); }
+      30% { transform: translateX(6px); }
+      45% { transform: translateX(-5px); }
+      60% { transform: translateX(5px); }
+      75% { transform: translateX(-3px); }
+      90% { transform: translateX(3px); }
+    }
+
+    /* Laugh area extra button */
+    #laughExtras { margin-top: 10px; }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Happy Valentine’s Day 💛</h1>
+    <p class="small" id="madeBy">Made by yours truly, Rock aka Your Husband aka Anthony ❤️ You make everything so worth it.</p>
+
+    <h2>Open when…</h2>
+    <div class="row">
+      <button onclick="showMsg('miss')">you miss me</button>
+      <button onclick="showMsg('laugh')">you need a laugh</button>
+      <button onclick="showMsg('reminder')">you need a reminder why I love you</button>
+      <button onclick="showMsg('motivation')">you need motivation</button>
+      <button onclick="showMsg('sad')">you are feeling sad</button>
+      <button onclick="showMsg('happy')">you are happy</button>
+    </div>
+
+    <div class="box" id="msgBox">Click a button ↑</div>
+    <div id="laughExtras"></div>
+
+    <h2 style="margin-top:18px;">Secret code 🔐</h2>
+    <p class="small">Hint: Your birthday (day+month) , My favorite 3 digit number , Valentines day date</p>
+    <div class="row">
+      <input id="codeInput" placeholder="Enter code" />
+      <button onclick="unlock()">Unlock</button>
+    </div>
+    <div class="box" id="secretBox">Locked.</div>
+
+    <p class="small" style="margin-top:16px;">
+      <b>P.S</b> Sorry this took so long baby I wanted to make it special for you I hope you like it. I love you so much it's you and only you ❤️
+    </p>
+  </div>
+
+  <script>
+    // ===== Your exact messages =====
+    const messages = {
+      miss: `Hey silly I miss you too right now. don't think I don't when we're away 🥰 . You mean so much to me my special girl you are so beautiful and so pretty I will do anything for you. I love you so much I know this may not be much but just think of a funny time between us 😁 silly call moments.... Fortnite fails.... voice cracks..... awkward moments there's so many between us you can think of some you probably are already smiling 😭. I love you <span class="name-glow">Zyanya ❤️</span>`,
+
+      laugh: `hey silly, we are always laughing you really need some help on this one?? Okay... um we have so much fun and silly moments together one that I know will guarantee to make you laugh no matter the situation is my voice cracks... I want to think of a moment that's most memorable but I always get too embarrassed for voice cracking in front of a pretty girl I instantly forget. Im sure you can remember the moments on DBD, in call, when im reading things, or just talking to you in general SMH. Another laugh could be on chicken horse which we've played this year there has been so many funny and silly moments the most memorable being the cheese arch nemesis of mine and the next match continuing on the Jungle..... Fortnite and for some reason I can't think of one but we have so many and not just recently im thinking about 3 years ago Fortnite . Remember that amazing unforgettable winter break? Such a fun time staying. up and playing till 3-5 am some nights. Ill never forget those times with you I love you so much silly you make my cheeks hurt 😭❤️`,
+
+      reminder: `Hey silly, really ? A REMINDER? If you wish. I love you so much Zyanya you mean so much to me I want you to be the person in my life forever. I'm so grateful for you, you make me laugh so much, enjoy life so much, and be the real person who I am with you. I love spending time with you no matter what we're doing texting, updating, calling, playing, watching, drawing, having certain talks :3 , everything makes me feel so warm and good with you I love you so much my beautiful gorgeous wife. It couldn't be anyone else in my life and will be no one else in my life I promise you that ❤️ I love you Zyanya my special girl <3 my special girlfriend <3 my special wife <3 You make me be me and comfortable being me around you and there's nothing else I can ask from you but to keep loving me the way you love me. Thank you :) mwah beautiful`,
+
+      motivation: `Hey silly, whats wrong ? Have you told me? You better have.. if not read this I'll tell you now and probably the same thing once you tell me. <span class="pulse">YOU GOT THIS MY BABY</span> im your number 1 and number 1 fan cheering you on always throughout life. Are you struggling are you trying to make a goal are you needing some words? You can do anything you put your mind to baby you are so smart, brave, courageous, determined, dedicated, passionate and positive you got this. You've made it this far whats a little more push? This one may be silly but I want you to know im there for you no matter what. I want you to succeed and I want be apart of your journey in life. You got this Zyanya anything you put your mind to. Anything. ❤️`,
+
+      sad: `Hey silly, my babyyyyyy why are you sad :((( I'm getting sad writing this just thinking you're sad. I want to be there for you baby you are never alone. Never. You will always have me no matter what , I promise I'll always be there for you when you're not feeling the best. You have me you have your family you have our children you are not alone baby :). You think Sir Walks A Lot wants to see you sad??? our daughter??? our other children??? nooo we CANNOT have that around here. You let me know baby if this isn't enough I will always be a shoulder to cry on and an ear to hear. Don't be sad baby and it better not be something silly 😼 You are too majestic and beautiful to have my baby my Zyanya sad. Mwah I love you 🥰`,
+
+      happy: `Hey silly, why are you so happy? 😁 jk im glad you dserve to be happy baby. You deserve true happiness and love only. Knowing you're happy makes me happyy and I hope you know that . Im so proud of how far you've come and grown my baby it makes me so happy and joyful to know anythings possible you always remind me of a beautiful flower sticking out in a field of flowers just knowing you're so beautiful and special. I'm glad your day is going well and you're happy right now you are a very kind and sweet girl , you're so good to me baby I wanna say I don't deserve you but uh I know better right? 😅 lol be happy stay happy amor. I love you ❤️`
+    };
+
+    // Voice crack text (Option 4, no emoji)
+    const voiceCrackText = "aAaa ... you didn't hear that<br>what are you talking about<br>anyways";
+
+    // Secret code messages
+    const codeMessages = {
+      "1201": `I love how your heart is real. I love our everyday talks. I love how being with you feels safe. I’m proud of you, and I’m grateful for you. Thank you baby you make me feel so loved it's such a insane feeling that I have when im around you ❤️`,
+      "404": `Hey silly, you better have gotten this one lol. This number means so much to me honestly, as silly as it sounds I really like it and idk if resonate is the right word but find peace in it. It reminds me of when I first met my love and only knowing her online username for the longest of time and seeing such a random number anywhere made me instantly think of you. From getting the number sequence in math class, seeing the actual error of it, randomly spotting it in games or real life I always need to tell you or take a photo to show you. Who knew such a silly random number will become one that I will never forget in my life 😊 crazy isn't it.. I love you ❤️`,
+      "0214": `Happy valentines day my love!!! I hope im not late.... or too late... I love you so much I can't wait for the years to come to spend more and more Valentines Days with you and experience so much in between I love you Zyanya thank you for dealing with me and loving me ❤️`
+    };
+
+    // ===== Effect management (instant switch + full reset) =====
+    let heartIntervalId = null;
+
+    function resetEffects() {
+      // Clear intervals
+      if (heartIntervalId) { window.clearInterval(heartIntervalId); heartIntervalId = null; }
+
+      // Remove any hearts/confetti/sparkles
+      document.querySelectorAll(".tiny-heart, .confetti, .sparkle").forEach(n => n.remove());
+
+      // Remove mode classes
+      document.body.classList.remove("mode-miss", "mode-love", "mode-motivation", "mode-sad");
+
+      // Clear laugh extras
+      document.getElementById("laughExtras").innerHTML = "";
+    }
+
+    function setMode(modeKey) {
+      // modeKey: miss, love, motivation, sad, happy, laugh (neutral)
+      if (modeKey === "miss") document.body.classList.add("mode-miss");
+      if (modeKey === "love") document.body.classList.add("mode-love");
+      if (modeKey === "motivation") document.body.classList.add("mode-motivation");
+      if (modeKey === "sad") document.body.classList.add("mode-sad");
+      // happy + laugh stay neutral background
+    }
+
+    function startHearts(kind) {
+      // kind: "miss" or "sad"
+      const rate = (kind === "sad") ? 900 : 450;
+      spawnHeart(kind); // immediate
+      heartIntervalId = window.setInterval(() => spawnHeart(kind), rate);
+    }
+
+    function spawnHeart(kind) {
+      const heart = document.createElement("div");
+      heart.className = "tiny-heart" + (kind === "sad" ? " sad-heart" : "");
+      heart.textContent = "❤";
+      heart.style.left = (Math.random() * 100) + "vw";
+      const size = (kind === "sad")
+        ? (10 + Math.random() * 8)
+        : (10 + Math.random() * 10);
+      heart.style.fontSize = size + "px";
+      const duration = (kind === "sad")
+        ? (4.5 + Math.random() * 2.5)
+        : (2.5 + Math.random() * 1.5);
+      heart.style.animationDuration = duration + "s";
+      document.body.appendChild(heart);
+      window.setTimeout(() => heart.remove(), duration * 1000);
+    }
+
+    function confettiBurst() {
+      const count = 40;
+      for (let i = 0; i < count; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = (Math.random() * 100) + "vw";
+        c.style.animationDuration = (1.2 + Math.random() * 0.8) + "s";
+        c.style.width = (6 + Math.random() * 8) + "px";
+        c.style.height = (8 + Math.random() * 10) + "px";
+        // bright-ish colors (simple, festive)
+        const colors = ["#ff4d6d","#ffd166","#06d6a0","#4ea8de","#b5179e","#ff7a00","#7b2cbf"];
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(c);
+        window.setTimeout(() => c.remove(), 2000);
+      }
+    }
+
+    function sparkleNearCard() {
+      const card = document.querySelector(".card").getBoundingClientRect();
+      const count = 10;
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement("div");
+        s.className = "sparkle";
+        s.textContent = "✨";
+        const x = card.left + (Math.random() * card.width);
+        const y = card.top + (Math.random() * (card.height * 0.35));
+        s.style.left = x + "px";
+        s.style.top = y + "px";
+        s.style.fontSize = (14 + Math.random() * 10) + "px";
+        document.body.appendChild(s);
+        window.setTimeout(() => s.remove(), 900);
+      }
+    }
+
+    function showVoiceCrackPopup() {
+      // Full reset of overlays only (not whole mode)
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+      overlay.innerHTML = `
+        <div class="popup shake">
+          ${voiceCrackText}
+        </div>
+      `;
+      overlay.addEventListener("click", () => overlay.remove());
+      document.body.appendChild(overlay);
+      window.setTimeout(() => overlay.remove(), 1800);
+    }
+
+    function showMsg(key) {
+      resetEffects();
+
+      const msgBox = document.getElementById("msgBox");
+      msgBox.innerHTML = messages[key];
+
+      if (key === "miss") {
+        setMode("miss");
+        startHearts("miss");
+      }
+
+      if (key === "reminder") {
+        setMode("love");
+        // gentle glow only via mode styling
+      }
+
+      if (key === "motivation") {
+        setMode("motivation");
+        sparkleNearCard();
+      }
+
+      if (key === "sad") {
+        setMode("sad");
+        startHearts("sad");
+      }
+
+      if (key === "happy") {
+        // neutral background, confetti burst for 1 second
+        confettiBurst();
+      }
+
+      if (key === "laugh") {
+        // Add the AAA voice crack button under the message
+        const extras = document.getElementById("laughExtras");
+        extras.innerHTML = `
+          <button onclick="showVoiceCrackPopup()">AAA voice crack</button>
+        `;
+      }
+    }
+
+    function unlock() {
+      const code = (document.getElementById("codeInput").value || "").trim();
+      const secretBox = document.getElementById("secretBox");
+
+      if (codeMessages[code]) {
+        secretBox.innerHTML = "<b>Unlocked 💛</b><br>" + codeMessages[code];
+      } else {
+        secretBox.textContent = "Nope 😭 try again.";
+      }
+    }
+  </script>
+</body>
+</html>
